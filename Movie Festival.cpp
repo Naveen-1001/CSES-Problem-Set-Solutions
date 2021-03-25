@@ -62,3 +62,11 @@ int main()
     cout<<res;
     return 0;
 }
+
+/*
+Another easier way to do it is to simply sort the pairs in increasing order of ending times. 
+Then for each pair, if the starting time>=current time then choose it and set current time as the ending time 
+of that movie. also since we are also going to get increasing order of strting time, if the starting time is 
+smaller than the current time, we just iterate to next pair.
+This is similar to the most trains we can catch problem given their arriving and departure time
+*/
