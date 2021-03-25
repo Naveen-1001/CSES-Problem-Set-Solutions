@@ -50,11 +50,11 @@ void solve()
     vector<ll>a(n);
     vector<ll>b(n);
     vector<ll>p(n);
-    //Basically we want to reduce the number of days we check cuz inititlayy b[i] and a[i] can go uptill 10^9.
+    //Basically we want to reduce the number of days we check cuz initialy b[i] and a[i] can go uptill 10^9.
     // But we actually only care abt the days either a job has been completed or finished. Also for that we dont
     // need the exact day. we only want the relative positions of the staring and ending dates to be the same.
     // So we assign an index to each of the starting or ending days. Then we run a dp over these days. We store
-    // starting date and price for a project at the same index as the index assigned for the ending date of the job.
+    // relative starting date and price for a project at the index(relative) assigned for the ending date of the job.
 
     map<ll,ll>compress;
     for(ll i=0;i<n;i++)
