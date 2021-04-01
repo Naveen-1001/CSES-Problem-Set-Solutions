@@ -1,4 +1,7 @@
 #include<bits/stdc++.h>
+#include<ext/pb_ds/assoc_container.hpp>
+#include<ext/pb_ds/tree_policy.hpp>
+
 #define mod 998244353
 #define modc 1000000007
      
@@ -7,7 +10,12 @@ const long double PI = 3.141592653589793236L;
 typedef long long int ll;
 typedef long double ld;
      
+using namespace __gnu_pbds;
 using namespace std;
+
+template<class T> 
+using ordered_set =tree<T, null_type, less<T>, rb_tree_tag,tree_order_statistics_node_update>;
+
 
 ll fast_power(ll a, ll b, ll m)//a^b
 {
@@ -56,7 +64,7 @@ int main()
     
     ll t;
     t=1;
-    //cin>>t;
+    cin>>t;
     while(t--)
     {   
         solve();
