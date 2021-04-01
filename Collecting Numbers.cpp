@@ -6,27 +6,25 @@ int main()
     ll n;
     cin>>n;
     vector<ll>v(n);
+    map<ll,ll>m;
     for(ll i=0;i<n;i++)
     {
         cin>>v[i];
     }
-    vector<ll>res;
     for(ll i=0;i<n;i++)
     {
-        auto it=upper_bound(res.begin(),res.end(),v[i],greater<ll>());
-        if(it==res.end())
-        {
-            res.push_back(v[i]);
-        }
-        else 
-        {
-            *it=v[i];
-        }
+        m[v[i]]=i;
     }
-    for(ll i=0;i<res.size();i++)
+    ll count=0;
+    ll prev=INT_MAX;
+    for(auto it=m.begin();it!=m.end();it++)
     {
-        cout<<res[i]<<" ";
+        if(it->second<prev)
+        {
+            count++;
+        }
+        prev=it->second;
     }
-    cout<<"\n";
-    cout<<res.size();
+    cout<<count;
+    return 0;
 }
