@@ -9,6 +9,7 @@ typedef long double ld;
      
 using namespace std;
 //Basically this is a version of 01knapsack as all the books are diff(so assuming all of them will have ddiff weight)
+
 int maxPages(int n,int x, vector<int>price, vector<int>pages)
 {
     vector<vector<int> >dp(n+1,vector<int>(x+1));
@@ -25,7 +26,6 @@ int maxPages(int n,int x, vector<int>price, vector<int>pages)
             else dp[i][j]=dp[i-1][j];
         }
     }
-
     return dp[n][x];
 }
      
