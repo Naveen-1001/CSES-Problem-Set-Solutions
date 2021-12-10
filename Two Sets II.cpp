@@ -24,7 +24,7 @@ For counting number of ways to make sum x using values up to i, we consider the 
 Either we didn't include it, then there are dp[i-1][x] possibilities, or we included it, 
 and there are dp[i-1][x-i] possibilities. So dp[i][x] = dp[i-1][x] + dp[i-1][x-i].
 */
- 
+/*
 ll twoSets(ll n)
 {
     if(n*(n+1)%4!=0) return 0;
@@ -45,21 +45,46 @@ ll twoSets(ll n)
             }
         }
     }
- 
     return dp[n-1][n*(n+1)/4];
  
 }
+*/
+ll helper(ll i, ll n,ll left, vector<vector<ll>>&dp,vector<int>&nums)
+{
+	if(i==n+1 or left<0) return 0;
+	if(left==0) 
+    {   
+        for(int j=0;j<nums.size();j++)
+        {
+            cout<<nums[j]<<" ";
+        }
+        cout<<"\n";
+        return 1;
+    }
+	if(dp[i][left]!=-1) return dp[i][left];
+    nums.push_back(i);
+	dp[i][left]=(helper(i+1,n,left-i,dp,nums));
+    nums.pop_back();
+    dp[i][left]=(dp[i][left]+helper(i+1,n,left,dp,nums))%modc;
+    return dp[i][left];
+}
+
+ll count(ll n)
+{   
+	if((n*(n+1)/2)%2!=0) return 0;
+    vector<int>nums;
+	vector<vector<ll>>dp(n+1,vector<ll>(n*(n+1)/4+1,-1));
+	return helper(1,n,n*(n+1)/4,dp,nums);
+}
+
  
 int main()
 {   
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
-    
     ll n;
     cin>>n;
-    
-    cout<<twoSets(n);
-    
+    cout<<count(n);
     return 0;
 }

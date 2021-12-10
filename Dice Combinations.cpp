@@ -19,7 +19,7 @@ ll count(ll n,vector<ll>&dp)
     return dp[n]=count_here;
 }
 
-//Function for code wothout repeatitions
+//Function for code without repeatitions
 /*
 ll count(ll n, ll pos, vector<ll>v,vector<vector<ll> >&dp)
 {
@@ -50,10 +50,17 @@ int main()
     {   
         ll n;
         cin>>n;
-        vector<ll>dp(n+1,-1);
-
-        cout<<count(n,dp);
-
+        vector<ll>dp(n+1,0);
+        dp[0]=1;
+        for(ll i=1;i<=n;i++)
+        {
+            for(ll j=i-1;j>=i-6;j--)
+            {
+                if(j>=0) dp[i]=(dp[i]+dp[j])%modc;
+                else break;
+            }
+        }
+        cout<<dp[n];
     }
     return 0;
 }
