@@ -5,6 +5,7 @@
 #include <sstream>
 #include <queue>
 #include <deque>
+#include <climits>
 #include <bitset>
 #include <iterator>
 #include <list>
@@ -76,7 +77,41 @@ ll sum_of_digits(ll n)
 void solve()
 {
     //check t
-    cout<<"hello\n";
+    ll n,m;
+    cin>>n>>m;
+    vector<vector<pair<ll,ll>>>graph(n+1);
+    for(ll i=0;i<m;i++)
+    {
+        ll a,b,c;
+        cin>>a>>b>>c;
+        graph[a].push_back({b,c});
+    }
+    vector<ll>dist(n+1,LONG_MAX);
+    dist[1]=0;
+    priority_queue<pair<ll,ll>,vector<pair<ll,ll>>,greater<pair<ll,ll>>>pq;
+    pq.push({0,1});
+    while(!pq.empty())
+    {
+        pair<ll,ll>top=pq.top();
+        pq.pop();
+        if(top.first==dist[top.second])
+        {   
+            for(ll i=0;i<graph[top.second].size();i++)
+            {   
+                ll new_dist=dist[top.second]+graph[top.second][i].second;
+                if(dist[graph[top.second][i].first]>new_dist)
+                {
+                    dist[graph[top.second][i].first]=new_dist;
+                    pq.push({new_dist,graph[top.second][i].first});
+                }
+            }
+        }
+    }
+    for(ll i=1;i<=n;i++)
+    {
+        cout<<dist[i]<<" ";
+    }
+    cout<<"\n";
 }
      
 int main()

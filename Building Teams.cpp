@@ -72,11 +72,74 @@ ll sum_of_digits(ll n)
     }
     return sum;
 }
+
+ll dfs(ll index, ll curr, vector<vector<ll>>&graph, vector<ll>&visited, vector<ll>&ans)
+{   
+    ll retval=0;
+    visited[index]=1;
+    for(ll i=0;i<graph[index].size();i++)
+    {
+        if(!visited[graph[index][i]])
+        {   
+            if(curr==1) 
+            {
+                ans[graph[index][i]]=2;
+            }
+            else
+            {
+                ans[graph[index][i]]=1;
+            }
+            retval=min(retval,dfs(graph[index][i],(curr==1)?2:1,graph,visited,ans));
+        }
+        else if(ans[graph[index][i]]==curr)
+        {
+            {
+                retval=-1;
+            }
+        }
+    }
+    return retval;
+}
  
 void solve()
 {
     //check t
-    cout<<"hello\n";
+    ll n,m;
+    cin>>n>>m;
+    vector<vector<ll>>graph(n+1);
+    for(ll i=0;i<m;i++)
+    {
+        ll a,b;
+        cin>>a>>b;
+        // cout<<"i";
+        graph[a].push_back(b);
+        graph[b].push_back(a);
+    }
+
+    vector<ll>visited(n+1);
+    vector<ll>ans(n+1,1);
+    ll val=0;
+    for(ll i=1;i<=n;i++)
+    {
+        if(!visited[i])
+        {   
+            // cout<<"j";
+            val=min(val,dfs(i,1,graph,visited,ans));
+        }
+    }
+    if(val==-1)
+    {
+        cout<<"IMPOSSIBLE\n";
+        return;
+    }
+    else
+    {
+        for(ll i=1;i<=n;i++)
+        {
+            cout<<ans[i]<<" ";
+        }
+        cout<<"\n";
+    }
 }
      
 int main()

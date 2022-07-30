@@ -76,7 +76,48 @@ ll sum_of_digits(ll n)
 void solve()
 {
     //check t
-    cout<<"hello\n";
+    ll n,m;
+    cin>>n>>m;
+    vector<vector<ll>>graph(n+1);
+    for(ll i=0;i<m;i++)
+    {
+        ll a,b;
+        cin>>a>>b;
+        graph[a].push_back(b);
+        graph[b].push_back(a);
+    }
+    vector<bool>visited(n+1,false);
+    ll count=0;
+    vector<ll>new_component;
+    for(ll i=1;i<=n;i++)
+    {
+        if(!visited[i])
+        {   
+            count++;
+            new_component.push_back(i);
+            visited[i]=true;
+            queue<ll>q;
+            q.push(i);
+            while(!q.empty())
+            {
+                ll front=q.front();
+                q.pop();
+                for(int j=0;j<graph[front].size();j++)
+                {
+                    if(!visited[graph[front][j]])
+                    {
+                        visited[graph[front][j]]=true;
+                        q.push(graph[front][j]);
+                    }
+                }
+            }
+        }
+    }
+    cout<<count-1<<"\n";
+    for(ll i=0;i<new_component.size()-1;i++)
+    {
+        cout<<new_component[i]<<" "<<new_component[i+1]<<"\n";
+    }
 }
      
 int main()
