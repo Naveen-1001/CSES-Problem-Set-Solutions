@@ -4,10 +4,10 @@
 #include <algorithm>
 #include <sstream>
 #include <queue>
-#include <climits>
 #include <deque>
 #include <bitset>
 #include <iterator>
+#include <climits>
 #include <list>
 #include <stack>
 #include <map>
@@ -30,8 +30,7 @@
 #define modc 1000000007
      
 const long double PI = 3.141592653589793236L;
-const long long INF = 10000000000000000;//10^16 
-    
+     
 typedef long long int ll;
 typedef long double ld;
      
@@ -64,9 +63,48 @@ ll lcm(ll a,ll b)
     return (a*b)/gcd(a,b);
 }
  
+ll sum_of_digits(ll n)
+{
+    ll sum=0;
+    while(n>0)
+    {
+        sum+=n%10;
+        n/=10;
+    }
+    return sum;
+}
+ 
 void solve()
 {
     //check t
+    ll n,m,q;
+    cin>>n>>m>>q;
+    vector<vector<ll>>graph(n+1,vector<ll>(n+1,10000000000000000));
+    for(ll i=0;i<m;i++)
+    {
+        ll a,b,c;
+        cin>>a>>b>>c;
+        graph[a][b]=min(graph[a][b],c);
+        graph[b][a]=min(graph[a][b],c);
+    }
+    for(ll i=1;i<=n;i++) graph[i][i]=0;
+    for(ll k=1;k<=n;k++)
+    { 
+        for(ll i=1;i<=n;i++)
+        {
+            for(ll j=1;j<=n;j++)
+            {
+                ll temp=graph[i][k]+graph[k][j];
+                graph[i][j]=min(graph[i][j],temp);
+            }
+        }
+    }
+    while(q--)
+    {
+        ll a,b;
+        cin>>a>>b;
+        (graph[a][b]==10000000000000000)?(cout<<-1<<"\n"):(cout<<graph[a][b]<<"\n");
+    }
 }
      
 int main()

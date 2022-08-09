@@ -63,10 +63,67 @@ ll lcm(ll a,ll b)
 {
     return (a*b)/gcd(a,b);
 }
+
+void dfs(ll ind, vector<ll>&visited, vector<vector<ll>>&graph,unordered_map<ll,ll>&path, bool &found)
+{
+    if(visited[ind]==1)
+    {   
+        if(found) return;
+        vector<ll>ans;
+        ans.push_back(ind);
+        ll parent=path[ind];
+        while(parent!=ind)
+        {
+            ans.push_back(parent);
+            parent=path[parent];
+        }
+        ans.push_back(parent);
+        if((ans.size()>2))
+        {   
+            found=true;
+            reverse(ans.begin(),ans.end());
+            cout<<ans.size()<<"\n";
+            for(ll x:ans)
+            {
+                cout<<x<<" ";
+            }
+            cout<<"\n";
+        }
+        return;
+    }
+    visited[ind]=1;
+    for(ll i=0;i<graph[ind].size();i++)
+    {
+        if(visited[graph[ind][i]]!=2)
+        {
+            path[graph[ind][i]]=ind;
+            dfs(graph[ind][i],visited,graph,path,found);
+        }
+    }
+    visited[ind]=2;
+}
  
 void solve()
 {
     //check t
+    ll n,m;
+    cin>>n>>m;
+    vector<vector<ll>>graph(n+1);
+    for(ll i=0;i<m;i++)
+    {
+        ll a,b;
+        cin>>a>>b;
+        graph[a].push_back(b);
+    }
+    vector<ll>visited(n+1);
+    unordered_map<ll,ll>path;
+    bool found=false;
+    for(ll i=1;i<=n;i++)
+    {
+        if(!visited[i]) dfs(i,visited,graph,path,found);
+        if(found) return;
+    }
+    cout<<"IMPOSSIBLE"<<"\n";
 }
      
 int main()

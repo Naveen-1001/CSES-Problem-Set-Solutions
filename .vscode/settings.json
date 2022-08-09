@@ -2,6 +2,12 @@
     "files.associations": {
         "utility": "cpp",
         "iostream": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "queue": "cpp",
+        "xlocale": "cpp",
+        "xutility": "cpp",
+        "ios": "cpp",
+        "xtree": "cpp",
+        "unordered_map": "cpp"
     }
 }

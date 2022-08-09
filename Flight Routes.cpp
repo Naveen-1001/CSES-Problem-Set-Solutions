@@ -67,6 +67,37 @@ ll lcm(ll a,ll b)
 void solve()
 {
     //check t
+    ll n,m,k;
+    cin>>n>>m>>k;
+    vector<vector<pair<ll,ll>>>graph(n+1);
+    for(ll i=0;i<m;i++)
+    {
+        ll a,b,c;
+        cin>>a>>b>>c;
+        graph[a].push_back({b,c});
+    }
+    priority_queue<pair<ll,ll>,vector<pair<ll,ll>>,greater<pair<ll,ll>>>pq;
+    vector<vector<ll>>dist(n+1);
+    pq.push({0,1});
+    while(!pq.empty())
+    {
+        pair<ll,ll>top=pq.top();
+        pq.pop();
+        if(dist[top.second].size()>=k)
+        {
+            continue;
+        }
+        dist[top.second].push_back(top.first);
+        for(ll i=0;i<graph[top.second].size();i++)
+        {
+            pq.push({top.first+graph[top.second][i].second,graph[top.second][i].first});
+        }
+    }
+    for(ll j=0;j<k;j++)
+    {   
+        cout<<dist[n][j]<<" ";
+    }
+    cout<<"\n";
 }
      
 int main()

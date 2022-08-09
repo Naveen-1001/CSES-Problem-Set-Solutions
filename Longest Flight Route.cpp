@@ -63,10 +63,56 @@ ll lcm(ll a,ll b)
 {
     return (a*b)/gcd(a,b);
 }
+
+ll dfs(ll ind, ll n, vector<vector<ll>>&graph, vector<ll>&dp, map<ll,ll>&path)
+{
+    if(ind==n)
+    {
+        return 0;
+    }
+    if(dp[ind]!=-1) return dp[ind];
+    ll ans=-2,next=-1;
+    for(ll i=0;i<graph[ind].size();i++)
+    {   
+        ll x=dfs(graph[ind][i],n,graph,dp,path);
+        if(x > ans)
+        {
+            ans = x;
+            next=graph[ind][i];
+        }
+    }
+    if(ans==-2) return dp[ind]=ans;
+    path[ind]=next;
+    return dp[ind]=1+ans;
+}
  
 void solve()
 {
     //check t
+    ll n,m;
+    cin>>n>>m;
+    vector<vector<ll>>graph(n+1);
+    for(ll i=0;i<m;i++)
+    {
+        ll a,b;
+        cin>>a>>b;
+        graph[a].push_back(b);
+    }
+    vector<ll>dp(n+1,-1);
+    map<ll,ll>path;
+    ll ans=dfs(1,n,graph,dp,path);
+    if(ans==-2) cout<<"IMPOSSIBLE\n";
+    else 
+    {
+        cout<<1+ans<<"\n";
+        ll curr=1;
+        while(curr!=n)
+        {
+            cout<<curr<<" ";
+            curr=path[curr];
+        }
+        cout<<curr<<"\n";
+    }
 }
      
 int main()

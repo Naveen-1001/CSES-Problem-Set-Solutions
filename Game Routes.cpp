@@ -63,10 +63,39 @@ ll lcm(ll a,ll b)
 {
     return (a*b)/gcd(a,b);
 }
+
+ll dfs(ll ind, ll n, vector<vector<ll>>&graph, vector<ll>&dp)
+{
+    if(ind==n)
+    {
+        return 1;
+    }
+    if(dp[ind]!=-1)
+    {
+        return dp[ind];
+    }
+    ll ans=0;
+    for(ll i=0;i<graph[ind].size();i++)
+    {
+        ans=(ans+dfs(graph[ind][i],n,graph,dp))%modc;
+    }
+    return dp[ind]=ans;
+}
  
 void solve()
 {
     //check t
+    ll n,m;
+    cin>>n>>m;
+    vector<vector<ll>>graph(n+1);
+    for(ll i=1;i<=m;i++)
+    {
+        ll a,b;
+        cin>>a>>b;
+        graph[a].push_back(b);
+    }
+    vector<ll>dp(n+1,-1);
+    cout<<dfs(1,n,graph,dp)<<"\n";
 }
      
 int main()

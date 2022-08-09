@@ -67,6 +67,56 @@ ll lcm(ll a,ll b)
 void solve()
 {
     //check t
+    ll n,m;
+    cin>>n>>m;
+    unordered_map<ll,ll>indegree;
+    vector<vector<ll>>graph(n+1);
+    for(ll i=0;i<m;i++)
+    {
+        ll a,b;
+        cin>>a>>b;
+        graph[a].push_back(b);
+        indegree[b]++;
+    }
+    queue<ll>q;
+    vector<bool>visited(n+1);
+    vector<ll>topological_order;
+    for(ll i=1;i<=n;i++)
+    {
+        if(!indegree[i])
+        {
+            q.push(i);
+            visited[i]=true;
+        }
+    }
+    while(!q.empty())
+    {
+        ll front=q.front();
+        q.pop();
+        topological_order.push_back(front);
+        for(ll i=0;i<graph[front].size();i++)
+        {
+            if(!visited[graph[front][i]])
+            {
+                indegree[graph[front][i]]--;
+                if(indegree[graph[front][i]]==0)
+                {
+                    q.push(graph[front][i]);
+                    visited[graph[front][i]]=true;
+                }
+            }
+        }
+    }
+    if(topological_order.size()<n) 
+    {
+        cout<<"IMPOSSIBLE\n";
+        return;
+    }
+    for(auto x:topological_order)
+    {
+        cout<<x<<" ";
+    }
+    cout<<"\n";
 }
      
 int main()

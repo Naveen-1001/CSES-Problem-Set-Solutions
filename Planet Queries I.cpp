@@ -63,10 +63,48 @@ ll lcm(ll a,ll b)
 {
     return (a*b)/gcd(a,b);
 }
- 
+
+ll parent[200005][30];
+
+ll jump(ll a, ll d)
+{   
+    for(ll i=0;i<30;i++)
+    {
+        if(d & 1<<i)
+        {
+            a=parent[a][i];
+        }
+    }
+    return a;
+}
+
 void solve()
 {
-    //check t
+    ll n,q;
+    cin>>n>>q;
+    for(ll i=1;i<=n;i++)
+    {
+        cin>>parent[i][0];
+    }
+    vector<pair<ll,ll>>queries;
+    while(q--)
+    {
+        ll x,k;
+        cin>>x>>k;
+        queries.push_back({x,k});
+        // cout<<jump(x,k)<<"\n";
+    }
+    for(ll k=1;k<30;k++)
+    {
+        for(ll i=1;i<=n;i++)
+        {
+            parent[i][k]=parent[parent[i][k-1]][k-1];
+        }
+    }
+    for(ll i=0;i<queries.size();i++)
+    {
+        cout<<jump(queries[i].first,queries[i].second)<<"\n";
+    }
 }
      
 int main()
