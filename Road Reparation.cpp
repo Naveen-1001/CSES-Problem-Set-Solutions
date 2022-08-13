@@ -3,8 +3,6 @@
 #include <vector>
 #include <algorithm>
 #include <sstream>
-#include <unordered_map>
-#include <unordered_set>
 #include <queue>
 #include <climits>
 #include <deque>
@@ -30,7 +28,7 @@
  
 #define mod 998244353
 #define modc 1000000007
- 
+     
 const long double PI = 3.141592653589793236L;
 const long long INF = 10000000000000000;//10^16 
     
@@ -65,10 +63,79 @@ ll lcm(ll a,ll b)
 {
     return (a*b)/gcd(a,b);
 }
- 
+
+struct Edge{
+    ll u,v,w;
+}; 
+
+ll find(ll u, vector<ll>&parent)
+{
+    if(u==parent[u])
+    {
+        return u;
+    }
+    return parent[u]=find(parent[u],parent);
+}
+
+void unite(ll u, ll v, vector<ll>&size, vector<ll>&parent)
+{
+    u=find(u,parent);
+    v=find(v,parent);
+    if(size[u]>size[v])
+    {
+        swap(u,v);
+    }
+    parent[u]=v;
+    size[v]+=size[u];
+}
+
 void solve()
 {
     //check t
+    ll n,m;
+    cin>>n>>m;
+    vector<Edge>edges;
+    for(ll i=0;i<m;i++)
+    {
+        ll u,v,w;
+        cin>>u>>v>>w;
+        Edge e;
+        e.u=u,e.v=v,e.w=w;
+        edges.push_back(e);
+    }
+    sort(edges.begin(),edges.end(),[](const Edge &e1, const Edge &e2)
+    {
+        return e1.w<=e2.w;
+    });
+    vector<ll>parent(n+1);
+    for(ll i=1;i<=n;i++)
+    {
+        parent[i]=i;
+    }
+    vector<ll>size(n+1,1);
+    ll ans=0;
+    for(ll i=0;i<m;i++)
+    {   
+        ll u=edges[i].u,v=edges[i].v,w=edges[i].w;
+        if(find(u,parent)!=find(v,parent))
+        {
+            unite(u,v,size,parent);
+            ans+=w;
+        }
+    }
+    for(ll i=1;i<=n;i++)
+    {
+        ll x=find(i,parent);
+    }
+    for(ll i=2;i<=n;i++)
+    {
+        if(parent[1]!=parent[i])
+        {
+            cout<<"IMPOSSIBLE\n";
+            return;
+        }
+    }
+    cout<<ans<<"\n";
 }
      
 int main()

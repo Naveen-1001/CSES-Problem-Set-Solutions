@@ -69,6 +69,60 @@ ll lcm(ll a,ll b)
 void solve()
 {
     //check t
+    ll n,m;
+    cin>>n>>m;
+    vector<vector<ll>>graph(n+1);
+    vector<ll>indegree(n+1),outdegree(n+1);
+    for(ll i=0;i<m;i++)
+    {
+        ll a,b;
+        cin>>a>>b;
+        graph[a].push_back(b);
+        indegree[b]++;
+        outdegree[a]++;
+    }
+    if(!(outdegree[1]-indegree[1]==1 && indegree[n]-outdegree[n]==1))
+    {
+        cout<<"IMPOSSIBLE\n";
+        return;
+    }
+    for(ll i=2;i<n;i++)
+    {
+        if(indegree[i]!=outdegree[i])
+        {
+            cout<<"IMPOSSIBLE\n";
+            return;
+        }
+    }
+    stack<ll>s;
+    s.push(1);
+    vector<ll>ans;
+    while(!s.empty())
+    {
+        ll top=s.top();
+        if(graph[top].empty())
+        {
+            s.pop();
+            ans.push_back(top);
+        }
+        else
+        {
+            ll v=graph[top].back();
+            graph[top].pop_back();
+            s.push(v);
+        }
+    }
+    reverse(ans.begin(),ans.end());
+    if(ans.size()!=m+1)
+    {
+        cout<<"IMPOSSIBLE\n";
+        return;
+    }
+    for(auto x:ans)
+    {
+        cout<<x<<" ";
+    }
+    cout<<"\n";
 }
      
 int main()

@@ -3,8 +3,6 @@
 #include <vector>
 #include <algorithm>
 #include <sstream>
-#include <unordered_map>
-#include <unordered_set>
 #include <queue>
 #include <climits>
 #include <deque>
@@ -12,6 +10,8 @@
 #include <iterator>
 #include <list>
 #include <stack>
+#include <unordered_map>
+#include <unordered_set>
 #include <map>
 #include <set>
 #include <functional>
@@ -65,10 +65,66 @@ ll lcm(ll a,ll b)
 {
     return (a*b)/gcd(a,b);
 }
- 
+
 void solve()
 {
     //check t
+    ll n,m;
+    cin>>n>>m;
+    vector<unordered_set<ll>>graph(n+1);
+    unordered_map<ll,ll>degree;
+    for(ll i=0;i<m;i++)
+    {
+        ll a,b;
+        cin>>a>>b;
+        degree[a]++;
+        degree[b]++;
+        graph[a].insert(b);
+        graph[b].insert(a);
+    }
+
+    stack<ll>s;
+    vector<ll>ans;
+    ll count_odd=0;
+    for(ll i=1;i<=n;i++)
+    {
+        if(degree[i]%2==1) 
+        {
+            count_odd++;
+        }
+    }
+    if(count_odd)
+    {   
+        cout<<"IMPOSSIBLE\n";
+        return;
+    }
+    s.push(1);
+    while(!s.empty())
+    {   
+        ll top=s.top();
+        if(graph[top].empty())
+        {
+            s.pop();
+            ans.push_back(top);
+        }
+        else
+        {
+            ll v=*(graph[top].begin());
+            s.push(v);
+            graph[top].erase(v);
+            graph[v].erase(top);
+        }
+    }
+    if(ans.size()-1<m)
+    {
+        cout<<"IMPOSSIBLE\n";
+        return;
+    }
+    for(ll i=0;i<ans.size();i++)
+    {
+        cout<<ans[i]<<" ";
+    }
+    cout<<"\n";
 }
      
 int main()

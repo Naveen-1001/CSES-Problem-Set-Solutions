@@ -3,8 +3,6 @@
 #include <vector>
 #include <algorithm>
 #include <sstream>
-#include <unordered_map>
-#include <unordered_set>
 #include <queue>
 #include <climits>
 #include <deque>
@@ -30,7 +28,7 @@
  
 #define mod 998244353
 #define modc 1000000007
- 
+     
 const long double PI = 3.141592653589793236L;
 const long long INF = 10000000000000000;//10^16 
     
@@ -65,10 +63,55 @@ ll lcm(ll a,ll b)
 {
     return (a*b)/gcd(a,b);
 }
+
+ll find(ll u, vector<ll>&parent)
+{
+    if(u==parent[u])
+    {
+        return u;
+    }
+    return parent[u]=find(parent[u],parent);
+}
+
+ll max_component,components;
+
+void unite(ll u, ll v, vector<ll>&parent, vector<ll>&size)
+{
+    u=find(u,parent);
+    v=find(v,parent);
+    if(size[u]>size[v])
+    {
+        swap(u,v);
+    }
+    components--;
+    size[v]+=size[u];
+    parent[u]=v;
+    max_component=max(max_component,size[v]);
+}
  
 void solve()
 {
     //check t
+    ll n,m;
+    cin>>n>>m;
+    vector<ll>parent(n+1);
+    components=n;
+    max_component=1;
+    for(ll i=1;i<=n;i++)
+    {
+        parent[i]=i;
+    }
+    vector<ll>size(n+1,1);
+    for(ll i=0;i<m;i++)
+    {   
+        ll u,v;
+        cin>>u>>v;
+        if(find(u,parent)!=find(v,parent))
+        {
+            unite(u,v,parent,size);
+        }
+        cout<<components<<" "<<max_component<<"\n";
+    }
 }
      
 int main()

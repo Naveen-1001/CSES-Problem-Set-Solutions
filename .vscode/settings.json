@@ -8,6 +8,11 @@
         "xutility": "cpp",
         "ios": "cpp",
         "xtree": "cpp",
-        "unordered_map": "cpp"
+        "unordered_map": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "xstring": "cpp",
+        "map": "cpp",
+        "set": "cpp"
     }
 }

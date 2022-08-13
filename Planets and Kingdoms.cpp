@@ -3,8 +3,6 @@
 #include <vector>
 #include <algorithm>
 #include <sstream>
-#include <unordered_map>
-#include <unordered_set>
 #include <queue>
 #include <climits>
 #include <deque>
@@ -30,7 +28,7 @@
  
 #define mod 998244353
 #define modc 1000000007
- 
+     
 const long double PI = 3.141592653589793236L;
 const long long INF = 10000000000000000;//10^16 
     
@@ -65,10 +63,76 @@ ll lcm(ll a,ll b)
 {
     return (a*b)/gcd(a,b);
 }
- 
+
+vector<ll>order;
+vector<ll>kingdom;
+ll ccount;
+
+void dfs1(ll ind, vector<vector<ll>>&graph, vector<ll>&visited)
+{
+    visited[ind]=1;
+    for(ll i=0;i<graph[ind].size();i++)
+    {
+        if(!visited[graph[ind][i]])
+        {
+            dfs1(graph[ind][i],graph,visited);
+        }
+    }
+    order.push_back(ind);
+}
+
+void dfs2(ll ind, vector<vector<ll>>&graph, vector<ll>&visited)
+{
+    visited[ind]=1;
+    kingdom[ind]=ccount;
+    for(ll i=0;i<graph[ind].size();i++)
+    {
+        if(!visited[graph[ind][i]])
+        {
+            dfs2(graph[ind][i],graph,visited);
+        }
+    }
+}
+
 void solve()
 {
     //check t
+    ll n,m;
+    cin>>n>>m;
+    vector<vector<ll>>graph(n+1),revg(n+1);
+    for(ll i=0;i<m;i++)
+    {
+        ll a,b;
+        cin>>a>>b;
+        graph[a].push_back(b);
+        revg[b].push_back(a);
+    }
+    vector<ll>visited(n+1);
+    kingdom=vector<ll>(n+1,-1);
+    for(ll i=1;i<=n;i++)
+    {
+        if(!visited[i])
+        {
+            dfs1(i,graph,visited);
+        }
+    }
+    reverse(order.begin(),order.end());
+    fill(visited.begin(),visited.end(),0);
+    ccount=1;
+    for(ll i=0;i<order.size();i++)
+    {
+        if(!visited[order[i]])
+        {
+            dfs2(order[i],revg,visited);
+            ccount++;
+        }
+    }
+    cout<<ccount-1<<"\n";
+    for(ll i=1;i<=n;i++)
+    {
+        cout<<kingdom[i]<<" ";
+    }
+    cout<<"\n";
 }
      
 int main()
